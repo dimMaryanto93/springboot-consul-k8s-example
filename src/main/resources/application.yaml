@@ -1,0 +1,10 @@
+spring:
+  application:
+    name: nasabah-api
+  cloud:
+    consul:
+      discovery:
+        enabled: true
+        instance-id: ${spring.application.name}:${random.value}
+      host: localhost
+      port: 8500
