@@ -1,0 +1,46 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: postgresql-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: postgresdb
+  template:
+    metadata:
+      labels:
+        app: postgresdb
+    spec:
+      containers:
+        - name: postgresql-db
+          imagePullPolicy: "IfNotPresent"
+          image: postgres:9.6
+          ports:
+            - containerPort: 5432
+          envFrom:
+            - configMapRef:
+                name: database-config
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: database-config
+  labels:
+    app: postgresdb
+data:
+  POSTGRES_DB: discovery_service_db
+  POSTGRES_USER: discovery_service_db
+  POSTGRES_PASSWORD: discovery_service_db
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: database-service
+spec:
+  selector:
+    app: postgresdb
+  ports:
+    - port: 5432
+      protocol: "TCP"
+      targetPort: 5432

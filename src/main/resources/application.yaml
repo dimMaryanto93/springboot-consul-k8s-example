@@ -1,6 +1,6 @@
 spring:
   application:
-    name: nasabah-api
+    name: springboot-discovery-service-example
   cloud:
     consul:
       discovery:
@@ -8,3 +8,19 @@ spring:
         instance-id: ${spring.application.name}:${random.value}
       host: ${DISCOVERY_SERVICE_HOST:localhost}
       port: ${DISCOVERY_SERVICE_PORT:8500}
+  datasource:
+    username: discovery_service_db
+    password: discovery_service_db
+    url: jdbc:postgresql://${DATABASE_HOST:localhost}:5432/discovery_service_db
+  jpa:
+    database: postgresql
+    generate-ddl: false
+    hibernate:
+      ddl-auto: validate
+    show-sql: true
+  flyway:
+    baseline-on-migrate: true
+    enabled: false
+    clean-on-validation-error: true
+    encoding: UTF-8
+    check-location: true

@@ -13,7 +13,7 @@ spec:
         app: consul-discovery-service
     spec:
       containers:
-        - name: discovery-service
+        - name: consul-pod
           image: consul:1.4.4
           imagePullPolicy: "IfNotPresent"
           env:
@@ -35,4 +35,3 @@ spec:
     - port: 8500
       protocol: "TCP"
       targetPort: 8500
-  type: LoadBalancer
