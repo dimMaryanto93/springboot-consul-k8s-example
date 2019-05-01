@@ -9,9 +9,9 @@ spring:
       host: ${DISCOVERY_SERVICE_HOST:localhost}
       port: ${DISCOVERY_SERVICE_PORT:8500}
   datasource:
-    username: discovery_service_db
-    password: discovery_service_db
-    url: jdbc:postgresql://${DATABASE_HOST:localhost}:5432/discovery_service_db
+    username: ${DATABASE_USER:postgres}
+    password: ${DATABASE_PASSWORD:postgres}
+    url: jdbc:postgresql://${DATABASE_HOST:localhost}:${DATABASE_PORT:5432}/${DATABASE_NAME}
   jpa:
     database: postgresql
     generate-ddl: false

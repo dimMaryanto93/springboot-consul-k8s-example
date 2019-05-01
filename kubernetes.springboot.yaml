@@ -8,4 +8,40 @@ spec:
     matchLabels:
       app: springboot-app
   template:
+    spec:
+      containers:
+        - name: springboot-app
+          image: dimmaryanto93/springboot2-discovery-service-example:1.0.1-release
+          ports:
+            - containerPort: 8080
+          envFrom:
+            - configMapRef:
+                name: springboot-config
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: springboot-config
+  labels:
+    app: springboot-app
+data:
+  DISCOVERY_SERVICE_HOST: consul-service
+  DISCOVERY_SERVICE_URL: 8500
+  DATABASE_HOST: database-service
+  DATABASE_PORT: 5432
+  DATABASE_USERNAME: discovery_service_db
+  DATABASE_PASSWORD: discovery_service_db
+  DATABASE_NAME: discovery_service_db
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: springboot-service
+spec:
+  selector:
+    app: springboot-app
+  ports:
+    - port: 8080
+      protocol: "TCP"
+      targetPort: 8080
 
