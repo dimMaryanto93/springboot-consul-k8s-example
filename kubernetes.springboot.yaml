@@ -18,21 +18,9 @@ spec:
           imagePullPolicy: "IfNotPresent"
           ports:
             - containerPort: 8080
-          env:
-            - name: DISCOVERY_SERVICE_HOST
-              value: "consul-service"
-            - name: DISCOVERY_SERVICE_URL
-              value: "8500"
-            - name: DATABASE_HOST
-              value: "database-service"
-            - name: DATABASE_USER
-              value: "discovery_service_db"
-            - name: DATABASE_PASSWORD
-              value: "discovery_service_db"
-            - name: DATABASE_NAME
-              value: "discovery_service_db"
-            - name: DATABASE_PORT
-              value: "5432"
+          envFrom:
+            - configMapRef:
+                name: springboot-config
           command:
             - "java"
             - "-jar"
@@ -43,7 +31,7 @@ spec:
             - "--DISCOVERY_SERVICE_URL=$(DISCOVERY_SERVICE_URL)"
             - "--DATABASE_HOST=$(DATABASE_HOST)"
             - "--DATABASE_PORT=$(DATABASE_PORT)"
-            - "--DATABASE_USERNAME=$(DATABASE_USERNAME)"
+            - "--DATABASE_USER=$(DATABASE_USER)"
             - "--DATABASE_PASSWORD=$(DATABASE_PASSWORD)"
             - "--DATABASE_NAME=$(DATABASE_NAME)"
 ---
@@ -58,7 +46,7 @@ data:
   DISCOVERY_SERVICE_URL: "8500"
   DATABASE_HOST: "database-service"
   DATABASE_PORT: "5432"
-  DATABASE_USERNAME: "discovery_service_db"
+  DATABASE_USER: "discovery_service_db"
   DATABASE_PASSWORD: "discovery_service_db"
   DATABASE_NAME: "discovery_service_db"
 ---
@@ -73,4 +61,3 @@ spec:
     - port: 8080
       protocol: "TCP"
       targetPort: 8080
-
