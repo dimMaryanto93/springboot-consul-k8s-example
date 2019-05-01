@@ -8,6 +8,9 @@ spec:
     matchLabels:
       app: springboot-app
   template:
+    metadata:
+      labels:
+        app: springboot-app
     spec:
       containers:
         - name: springboot-app
@@ -25,13 +28,13 @@ metadata:
   labels:
     app: springboot-app
 data:
-  DISCOVERY_SERVICE_HOST: consul-service
-  DISCOVERY_SERVICE_URL: 8500
-  DATABASE_HOST: database-service
-  DATABASE_PORT: 5432
-  DATABASE_USERNAME: discovery_service_db
-  DATABASE_PASSWORD: discovery_service_db
-  DATABASE_NAME: discovery_service_db
+  DISCOVERY_SERVICE_HOST: "consul-service"
+  DISCOVERY_SERVICE_URL: "8500"
+  DATABASE_HOST: "database-service"
+  DATABASE_PORT: "5432"
+  DATABASE_USERNAME: "discovery_service_db"
+  DATABASE_PASSWORD: "discovery_service_db"
+  DATABASE_NAME: "discovery_service_db"
 ---
 apiVersion: v1
 kind: Service
