@@ -14,13 +14,38 @@ spec:
     spec:
       containers:
         - name: discovery-service-springboot
-          image: dimmaryanto93/springboot2-discovery-service-example:1.0.1-release
+          image: dimmaryanto93/springboot2-discovery-service-example:1.0.4-release
           imagePullPolicy: "IfNotPresent"
           ports:
             - containerPort: 8080
-          envFrom:
-            - configMapRef:
-                name: springboot-config
+          env:
+            - name: DISCOVERY_SERVICE_HOST
+              value: "consul-service"
+            - name: DISCOVERY_SERVICE_URL
+              value: "8500"
+            - name: DATABASE_HOST
+              value: "database-service"
+            - name: DATABASE_USER
+              value: "discovery_service_db"
+            - name: DATABASE_PASSWORD
+              value: "discovery_service_db"
+            - name: DATABASE_NAME
+              value: "discovery_service_db"
+            - name: DATABASE_PORT
+              value: "5432"
+          command:
+            - "java"
+            - "-jar"
+            - "-Djava.security.egd=file:/dev/./urandom"
+            - "/app.jar"
+          args:
+            - "--DISCOVERY_SERVICE_HOST=$(DISCOVERY_SERVICE_HOST)"
+            - "--DISCOVERY_SERVICE_URL=$(DISCOVERY_SERVICE_URL)"
+            - "--DATABASE_HOST=$(DATABASE_HOST)"
+            - "--DATABASE_PORT=$(DATABASE_PORT)"
+            - "--DATABASE_USERNAME=$(DATABASE_USERNAME)"
+            - "--DATABASE_PASSWORD=$(DATABASE_PASSWORD)"
+            - "--DATABASE_NAME=$(DATABASE_NAME)"
 ---
 apiVersion: v1
 kind: ConfigMap
