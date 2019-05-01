@@ -6,15 +6,16 @@ spec:
   replicas: 1
   selector:
     matchLabels:
-      app: springboot-app
+      app: springboot-application
   template:
     metadata:
       labels:
-        app: springboot-app
+        app: springboot-application
     spec:
       containers:
-        - name: springboot-app
+        - name: discovery-service-springboot
           image: dimmaryanto93/springboot2-discovery-service-example:1.0.1-release
+          imagePullPolicy: "IfNotPresent"
           ports:
             - containerPort: 8080
           envFrom:
@@ -26,7 +27,7 @@ kind: ConfigMap
 metadata:
   name: springboot-config
   labels:
-    app: springboot-app
+    app: springboot-application
 data:
   DISCOVERY_SERVICE_HOST: "consul-service"
   DISCOVERY_SERVICE_URL: "8500"
@@ -42,7 +43,7 @@ metadata:
   name: springboot-service
 spec:
   selector:
-    app: springboot-app
+    app: springboot-application
   ports:
     - port: 8080
       protocol: "TCP"
